@@ -4,25 +4,36 @@
     {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ user.name }}'s System</title>
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {% if current_user.is_authenticated %}
+    <title>{{ user.name }}的系统</title>
+    {% else %}
+    <title>模拟决策系统</title>
+    {% endif %}
+    <link rel="icon" href="{{ url_for('static', filename='a.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
     {% endblock %}
 </head>
 <body>
-
+    {% if current_user.is_authenticated %}
     <h2>
-        <img alt="Avatar" class="avatar" src="{{ url_for('static', filename='images/avatar.png') }}">
-        {{ user.name }}'s System
+        <img alt="Avatar" class="avatar" src="{{ url_for('static', filename='a.ico') }}">
+        {{ user.name }}的系统
     </h2>
+    {% else %}
+        <h2>
+        <img alt="Avatar" class="avatar" src="{{ url_for('static', filename='a.ico') }}">
+        模拟决策系统
+    </h2>
+    {% endif %}
     <nav>
         <ul>
             {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('plan') }}">Home</a></li>
-            <li><a href="{{ url_for('settings') }}">Settings</a></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            <li><a href="{{ url_for('index') }}">主页</a></li>
+            <li><a href="{{ url_for('settings') }}">设置</a></li>
+            <li><a href="{{ url_for('logout') }}">注销</a></li>
             {% else %}
-            <li><a href="{{ url_for('register') }}">Register</a></li>
+            <li><a href="{{ url_for('login') }}">登录</a></li>
+            <li><a href="{{ url_for('register') }}">注册</a></li>
             {% endif %}
         </ul>
     </nav>

@@ -6,7 +6,7 @@ body {
 }
 
 .avatar {
-    width: 40px;
+    width: 20px;
 }
 
 nav ul {
@@ -107,7 +107,7 @@ input[name=year] {
     font-weight: bold;
     color: black;
     text-decoration: none;
-    background: #F5C518;
+    background: #B2DFEE;
     border-radius: 5px;
     padding: 3px 5px;
 }
@@ -130,7 +130,12 @@ footer {
     font-weight: bold;
     color: black;
     text-decoration: none;
-    background: #EE6363;
+    background: #F08080;
     border-radius: 5px;
     padding: 3px 5px;
+}
+
+textarea {
+    resize: none;
+    font-size: 16px;
 }

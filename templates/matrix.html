@@ -1,9 +1,8 @@
-<!-- -*- coding: utf-8 -*- -->
 {% extends 'base.html' %}
 
 {% block content %}
-<p>{{ plan_list|length }} Plans &nbsp;{{ standard_list|length }} Standards</p>
-<h3>Standard Matrix</h3>
+<p>共有{{ plan_list|length }}个备选方案以及{{ standard_list|length }}个准则</p>
+<h3>评价准则相关对比</h3>
 <form method="post">
     {% for i in range(standard_list|length) %}
         {% if (i != standard_list|length - 1) %}
@@ -29,7 +28,7 @@
     <br>
 
     {% for s in standard_list %}
-        <h3>{{ s }} Matrix</h3>
+        <h3>各方案在{{ s }}的对比</h3>
         {% for i in range(plan_list|length) %}
         {% if (i != plan_list|length - 1) %}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -55,6 +54,6 @@
     {% endfor %}
     <br>
 
-    <input class="btn" type="submit" name="submit" value="Submit">
+    <input class="btn" type="submit" name="submit" value="Submit" onclick="return confirm('确认提交?')">
 </form>
 {% endblock %}

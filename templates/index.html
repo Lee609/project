@@ -1,27 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h3>相关说明</h3>
+<textarea name="description" cols="56" rows="12" readonly>
+    欢迎使用本系统！
+    如果您是个“选择困难症”，正在犹豫着选择什么，不妨使用本系统来得到一个合适的方案吧！
+    本系统将基于层次分析法（Analytic Hierarchy Process）来为您提供辅助决策的方案，您只需要在方案页面添加您的备选方案，在准则页面添加您的评价准则，并根据您的意向提供对应的对比分数，本系统就会为您提供相应的答案！
+    赶紧登录来体验一下吧！
+</textarea>
+<br><br>
 {% if current_user.is_authenticated %}
 <form method="post">
-    Name <input type="text" name="title" autocomplete="off" required>
-    Year <input type="text" name="year" autocomplete="off" required>
-    <input class="btn" type="submit" name="submit" value="Add">
+    <span class="float-right">
+        <input class="btn" type="submit" name="submit" value="体验一下">
+    </span>
 </form>
 {% endif %}
-<ul class="movie-list">
-    {% for movie in movies %}
-    <li>{{ movie.title }} - {{ movie.year }}
-        <span class="float-right">
-            {% if current_user.is_authenticated %}
-            <a class="btn" href="{{ url_for('edit', movie_id=movie.id) }}">Edit</a>
-            <form class="inline-form" method="post" action="{{ url_for('delete', movie_id=movie.id) }}">
-                <input class="btn" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure?')">
-            </form>
-            {% endif %}
-            <a class="baidu" href="https://www.baidu.com/s?wd={{ movie.title }}" target="_blank" title="Find this on Baidu">Baidu</a>
-        </span>
-    </li>
-    {% endfor %}
-</ul>
+<br>
 <img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='images/totoro.gif') }}" title="to~to~ro~">
 {% endblock %}

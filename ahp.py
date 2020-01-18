@@ -55,11 +55,17 @@ if __name__ == '__main__':
                   [1 / 4, 1, 1 / 4],
                   [2, 4, 1]])
     e = get_w(e)
+    print('get_w:{}'.format(e))
     a = get_w(a)
+    print('get_w:{}'.format(a))
     b = get_w(b)
+    print('get_w:{}'.format(b))
     c = get_w(c)
+    print('get_w:{}'.format(c))
     d = get_w(d)
+    print('get_w:{}'.format(d))
     f = get_w(f)
+    print('get_w:{}'.format(f))
     try:
         res = np.array([a, b, c, d, f])
         ret = (np.transpose(res) * e).sum(axis=1)

@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>Register</h3>
+<h3>注册</h3>
 <form method="post">
-    Name<br>
+    昵称<br>
     <input type="text" name="name" required><br><br>
-    Username<br>
+    用户名<br>
     <input type="text" name="username" required><br><br>
-    Password<br>
+    密码<br>
     <input type="password" name="password" required><br><br>
+    确认密码<br>
+    <input type="password" name="password_confirm" required><br><br>
     <input class="btn" type="submit" name="submit" value="Submit">
 </form>
 {% endblock %}
