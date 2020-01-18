@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="post">
+    <p>{{ plans|length }} Plans</p>
+    Plan <input type="text" name="plan" autocomplete="off" required>
+    <input class="btn" type="submit" name="submit" value="Add">
+</form>
+<ul class="movie-list">
+    {% for plan in plans %}
+    <li>{{ plan.plan_name }}
+    <span class="float-right">
+        <form class="inline-form" method="post" action="{{ url_for('delete_plan', plan_id=plan.id) }}">
+                <input class="delete" type="submit" name="delete" value="Delete">
+        </form>
+        <a class="baidu" href="https://www.baidu.com/s?wd={{ plan.plan_name }}" target="_blank"
+           title="Find this on Baidu" onclick="return confirm('Coming to other sites?')">Baidu</a>
+    </span>
+    {% endfor %}
+</ul>
+<span class="float-left">
+    <form class="inline-form" method="post" action="{{ url_for('plan_to_standard') }}">
+        <input class="btn" type="submit" name="complete" value="Summit">
+    </form>
+    <form class="inline-form" method="post" action="{{ url_for('clear_all_plan') }}">
+        <input class="delete" type="submit" name="clear_all" value="Clear All">
+    </form>
+</span>
+{% endblock %}

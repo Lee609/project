@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post">
+    <p>{{ standards|length }} Standards</p>
+    Standard <input type="text" name="standard" autocomplete="off" required>
+    <input class="btn" type="submit" name="submit" value="Add">
+</form>
+<ul class="movie-list">
+    {% for standard in standards %}
+    <li>{{ standard.standard_name }}
+    <span class="float-right">
+        <form class="inline-form" method="post" action="{{ url_for('delete_standard', standard_id=standard.id) }}">
+                <input class="delete" type="submit" name="delete" value="Delete">
+        </form>
+    </span>
+    {% endfor %}
+</ul>
+<span class="float-left">
+    <form class="inline-form" method="post" action="{{ url_for('standard_to_matrix') }}">
+        <input class="btn" type="submit" name="complete" value="Summit">
+    </form>
+    <form class="inline-form" method="post" action="{{ url_for('clear_all_standard') }}">
+        <input class="delete" type="submit" name="clear_all" value="Clear All" onclick="return confirm('Are you sure?')">
+    </form>
+</span>
+{% endblock %}
+
