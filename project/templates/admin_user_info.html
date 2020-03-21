@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if current_user.is_authenticated %}
+    <title>{{ user.name }}的系统</title>
+    {% else %}
+    <title>模拟决策系统</title>
+    {% endif %}
+    <link rel="icon" href="{{ url_for('static', filename='a.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+    <script src="static/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="static/echarts.min.js"></script>
+    <script type="text/javascript" src="static/china.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="left_admin">
+<ul class="movie-list-nav">
+    <li style="background:#BABBBC;">
+        <a href="{{ url_for('admin_user_info') }}" style="text-decoration: none; display:block;">
+            用户信息管理
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('admin_change_user_page') }}" style="text-decoration: none; display:block;">
+            用户页面管理
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('admin_monitor') }}" style="text-decoration: none; display:block;">
+            用户信息反馈
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('admin_index') }}" style="text-decoration: none; display:block;">
+            返回首页
+        </a>
+    </li>
+</ul>
+</div>
+
+<div class="right_admin">
+
+    <div class="left_admin">
+        <ul class="movie-list-nav">
+            <li style="background: #8B8B83;">
+                <a href="{{ url_for('admin_user_info') }}" style="text-decoration: none; display:block;">
+                    个人用户信息
+                </a>
+            </li>
+            <li style="background:#BABBBC;">
+                <a href="{{ url_for('admin_user_info_business') }}" style="text-decoration: none; display:block;">
+                    企业用户信息
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="right_admin">
+        <center>
+        <form method="post">
+            个人用户查询<input type="text" name="query_text" required>
+            <select name="query_type" required>
+                <option value="id">用户id</option>
+                <option value="username">用户名</option>
+                <option value="name">昵称</option>
+            </select>
+            <br>
+            <input type="submit" name="submit" value="查询">
+            <a href="{{ url_for('admin_user_info') }}"><input type="button" value="查询所有"></a>
+        </form>
+
+        <p>共{{ length }}条查询记录</p>
+        <table border="0" width="90%">
+            <tr>
+                <td>序号</td><td>用户id</td><td>用户名</td><td>昵称</td>
+            </tr>
+            {% for person_user in person_users %}
+            <tr class="movie-list">
+                <td>{{ loop.index }}</td>
+                <td>{{ person_user.id }}</td>
+                <td>{{ person_user.username }}</td>
+                <td>{{ person_user.name }}</td>
+                <td>
+                    <form class="inline-form" method="post"
+                          action="{{ url_for('user_detail', user_id=person_user.id) }}">
+                        <input class="btn" type="submit" name="query" value="查看详情">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        </center>
+    </div>
+
+</div>
+
+{% endblock %}

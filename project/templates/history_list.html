@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if current_user.is_authenticated %}
+    <title>{{ user.name }}的系统</title>
+    {% else %}
+    <title>模拟决策系统</title>
+    {% endif %}
+    <link rel="icon" href="{{ url_for('static', filename='a.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+    <script src="static/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="static/echarts.min.js"></script>
+    <script type="text/javascript" src="static/china.js"></script>
+{% endblock %}
+
+{% block content %}
+<a class="baidu" href="{{ url_for('business_index') }}">前往map</a>
+<ul class="movie-list">
+    <li><a class="baidu" href="{{ url_for('global_data') }}">前往</a></li>
+</ul>
+
+<table border="0" width="100%">
+    <tr>
+        <td>序号</td><td>出发地</td><td>计划地</td><td>评价准则</td>
+    </tr>
+    {% for his in user_history %}
+    <tr class="movie-list">
+        <td>{{ his.id }}</td>
+        <td>{{ his.begin_address_name }}</td>
+        <td>{% for up in user_plan_list[his.id-1] %}{{ up }} {% endfor %}</td>
+        <td>{% for us in user_standard_list[his.id-1] %}{{ us }} {% endfor %}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

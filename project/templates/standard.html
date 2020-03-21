@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content_left %}
+<p>当前地理位置为：{{ address }}</p>
+<form method="post">
+    修改位置 <input type="text" name="address" autocomplete="off" required value="{{ address }}">
+    <input class="btn" type="submit" name="submit" value="保存">
+</form>
+<h2>评价准则</h2>
+{% for i in range(recommend_standards|length) %}
+    <form method="post" style="display: inline"
+          action="{{ url_for('get_recommend_standard', recommend_standard_id=recommend_standards[i].id) }}">
+        <input class="baidu" type="submit" name="{{ recommend_standards[i].recommend_standard_name }}"
+               value="{{ recommend_standards[i].recommend_standard_name }}">
+    </form>
+    {% if ((i + 1) % 6) == 0 %}
+    <br>
+    {% endif %}
+{% endfor %}
+
+<form method="post">
+    其他 <input type="text" name="standard" autocomplete="off" required>
+    <input class="btn" type="submit" name="submit" value="添加">
+</form>
+{% endblock %}
+{% block content_right %}
+<h3>已选评价准则</h3>
+<p>共计{{ standards|length }}个评价准测</p>
+<ul class="movie-list">
+    {% if standards|length != 0 %}
+        {% for standard in standards %}
+        <li>{{ standard.standard_name }}
+        <span class="float-right">
+            <form class="inline-form" method="post" action="{{ url_for('delete_standard', standard_id=standard.id) }}">
+                    <input class="btn" type="submit" name="delete" value="删除">
+            </form>
+        </span>
+        {% endfor %}
+    {% else %}
+        <p>尚未添加评价准则
+    {% endif %}
+</ul>
+<span class="float-left">
+    <form class="inline-form" method="post" action="{{ url_for('standard_to_matrix') }} ">
+        <input class="btn" type="submit" name="complete" value="提交">
+    </form>
+    <form class="inline-form" method="post" action="{{ url_for('clear_all_standard') }}">
+        <input class="delete" type="submit" name="clear_all" value="删除所有准则" onclick="return confirm('确认清除所有评价准则?')">
+    </form>
+</span>
+{% endblock %}
+
+{% block indicator %}
+<a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">
+    <img id="bidiu" class="assistant" src="{{ url_for('static', filename='images/bidiu.gif') }}">
+</a>
+<div id="light" class="white_content">
+    是一个层窗口示例程序. <a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">点这里关闭本窗口</a>
+</div>
+<div id="fade" class="black_overlay"></div>
+<div id="bidiu_talk" class="assistant shadow">欢迎回来！</div>
+<script src="{{ url_for('static', filename='test.js') }}"></script>
+{% endblock %}
+

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul class="movie-list">
+    {% for recommend_standard in recommend_standards %}
+    <li>{{ recommend_standard.recommend_standard_name }}
+    <span class="float-right">
+        <form class="inline-form" method="post"
+              action="{{ url_for('add_recommend_standard', recommend_standard_id=recommend_standard.id) }}">
+            <input class="btn" type="submit" name="add" value="添加至我的准则">
+        </form>
+    </span>
+    {% endfor %}
+</ul>
+
+<hr style=" height:2px;border:none;border-top:5px dotted #696969;" />
+<p>已添加推荐评价准则</p>
+<ul class="recommend-list">
+    {% if temp_recommend_standards|length != 0 %}
+        {% for temp_recommend_standard in temp_recommend_standards %}
+        <li>{{ temp_recommend_standard.temp_recommend_standard_name }}
+        <span class="float-right">
+            <form class="inline-form" method="post"
+                  action="{{ url_for('delete_recommend_standard', temp_recommend_standard_id=temp_recommend_standard.id) }}">
+                <input class="btn" type="submit" name="delete" value="删除">
+            </form>
+        </span>
+        {% endfor %}
+    {% else %}
+        <p>当前尚未选择推荐评价准则
+    {% endif %}
+</ul>
+
+<span class="float-left">
+    <form class="inline-form" method="post" action="{{ url_for('recommend_to_standard') }} ">
+        <input class="btn" type="submit" name="complete" value="确定">
+    </form>
+</span>
+{% endblock %}

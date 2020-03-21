@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if current_user.is_authenticated %}
+    <title>{{ user.name }}的系统</title>
+    {% else %}
+    <title>模拟决策系统</title>
+    {% endif %}
+    <link rel="icon" href="{{ url_for('static', filename='a.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+    <script src="static/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="static/echarts.min.js"></script>
+{% endblock %}
+{% block content %}
+<br>
+<div id="bar" style="width:100%; height:700px;"></div>
+    <script>
+        $(
+            function () {
+                var chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
+                $.ajax({
+                    type: "GET",
+                    url: "http://127.0.0.1:5000/barChart",
+                    dataType: 'json',
+                    success: function (result) {
+                        chart.setOption(result);
+                    }
+                });
+            }
+        )
+    </script>
+
+<a class="baidu" href="{{ url_for('result') }}">返回</a>
+{% endblock %}

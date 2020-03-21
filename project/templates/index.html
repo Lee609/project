@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+<nav>
+    <ul>
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('index') }}">主页</a></li>
+        <li><a href="{{ url_for('logout') }}">注销</a></li>
+        {% else %}
+        <li><a href="{{ url_for('login') }}">登录</a></li>
+        <li><a href="{{ url_for('register') }}">注册</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h3>相关说明</h3>
+<textarea name="description" cols="56" rows="12" readonly>
+    欢迎使用本系统！
+    如果您是个“选择困难症”，正在犹豫着选择什么，不妨使用本系统来得到一个合适的方案吧！
+    本系统将基于层次分析法（Analytic Hierarchy Process）来为您提供辅助决策的方案，您只需要在方案页面添加您的备选方案，在准则页面添加您的评价准则，并根据您的意向提供对应的对比分数，本系统就会为您提供相应的答案！
+    赶紧登录来体验一下吧！
+</textarea>
+<br><br>
+{% if current_user.is_authenticated %}
+<form method="post">
+    <span class="float-right">
+        <input class="btn" type="submit" name="submit" value="体验一下">
+    </span>
+</form>
+{% endif %}
+<br>
+<img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='images/totoro.gif') }}" title="to~to~ro~">
+{% endblock %}

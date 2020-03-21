@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>是否允许获取当前位置？</h3>
+<form class="inline-form" method="post" action="{{ url_for('get_location_yes') }}">
+    <input class="btn" type="submit" name="yes" value="是">
+</form>
+<form class="inline-form" method="post" action="{{ url_for('get_location_no') }}">
+    <input class="btn" type="submit" name="no" value="否">
+</form>
+{% endblock %}

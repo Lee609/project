@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul class="recommend-list">
+    <li>抱歉,您输入的数据无法通过系统的一致性检验,且系统自动修正失败！</li>
+</ul>
+<!--<form class="inline-form" method="post" action="{{ url_for('matrix') }}">-->
+<!--    <input class="btn" type="submit" name="to_matrix" value="返回重新输入数据">-->
+<!--</form>-->
+<a class="query" href="{{ url_for('matrix') }}" target="_parent">返回重新输入数据</a>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<center>
+<h3>意见反馈</h3>
+<form method="post">
+    <textarea name="content" cols="56" rows="12"></textarea><br>
+    <input type="submit" name="submit" value="提交">
+    {% if user.identity == 'person' %}
+    <a href="{{ url_for('plan') }}"><input type="button" name="submit" value="返回"></a>
+    {% else %}
+    <a href="{{ url_for('business_index') }}"><input type="button" name="submit" value="返回"></a>
+    {% endif %}
+</form>
+</center>
+{% endblock %}

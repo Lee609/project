@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+{% endblock %}
+{% block content %}
+<div id="div1"><img src="static/b.jpg" /></div>
+{% block form %}
+<div class="sign-div">
+<form method="post">
+    <img alt="Avatar" class="avatar" src="{{ url_for('static', filename='a.ico') }}">
+    <h3>欢迎登录模拟决策系统</h3>
+    <input class="sign-text" type="text" name="username" placeholder="用户名" required><br>
+    <input class="sign-text" type="password" name="password" placeholder="密码" required><br>
+    <select name="identity" required>
+        <option value="person">个人</option>
+        <option value="business">企业</option>
+        <option value="admin">管理员</option>
+    </select>
+    <br>
+    <input class="sign-btn" type="submit" name="submit" value="登录">
+    <p>没有帐号? <a href="{{ url_for('register') }}">点击此注册</a></p>
+</form>
+</div>
+{% endblock %}
+{% for message in get_flashed_messages() %}
+<div class="alert">{{ message }}</div>
+{% endfor %}
+{% endblock %}
+{% block indicator %}
+{% endblock %}

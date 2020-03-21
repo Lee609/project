@@ -1,0 +1,16 @@
+{% extends 'login.html' %}
+
+{% block form %}
+<div class="sign-div">
+<form method="post">
+    <h3>注册</h3>
+    <input class="sign-text" type="text" name="name" placeholder="昵称" required><br>
+    <input class="sign-text" type="text" name="username" placeholder="用户名" required><br>
+    <input class="sign-text" type="password" name="password" placeholder="密码" required><br>
+    <input class="sign-text" type="password" name="password_confirm" placeholder="确认密码" required><br>
+    <br>
+    <input class="sign-btn" type="submit" name="submit" value="注册">
+    <a href="{{ url_for('login') }}">返回登录</a>
+</form>
+</div>
+{% endblock %}

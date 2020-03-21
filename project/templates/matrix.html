@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block content_left %}
+<p>共有{{ plan_list|length }}个备选方案以及{{ standard_list|length }}个准则</p>
+<h2>打分标准</h2>
+<table class="point_table">
+    <tr><td>因素ｉ(行)与因素ｊ(列)比较</td><td>打分</td></tr>
+    <tr><td>ｉ与ｊ同样重要</td><td>1</td></tr>
+    <tr><td>ｉ比ｊ稍微重要</td><td>3</td></tr>
+    <tr><td>ｉ比ｊ比较重要</td><td>5</td></tr>
+    <tr><td>ｉ比ｊ重要的多</td><td>7</td></tr>
+    <tr><td>ｉ比ｊ重要很多</td><td>9</td></tr>
+    <tr><td>ｉ与ｊ相比介于上述判断之间</td><td>2,4,6,8</td></tr>
+    <tr><td>ｉ与ｊ相比与上述判断相反</td><td>1/上述打分</td></tr>
+</table>
+{% endblock %}
+{% block content_right %}
+<h2 class="matrix">1 评价准则相关对比</h2>
+<form method="post">
+    <table>
+        <tr>
+        <td></td>
+        {% for i in range(standard_list|length) %}
+            {% if (i != standard_list|length - 1) %}
+                <td>{{ standard_list[i] }}</td>
+            {% endif %}
+        {% endfor %}
+        </tr>
+        {% for i in range(standard_list|length) %}
+            <tr>
+                <td>
+                {% if i != 0 %}
+                    {{ standard_list[i] }}
+                {% endif %}
+                </td>
+                {% for j in range(i) %}
+                    <td>
+                        <select name="{{ standard_list[i] }}{{ standard_list[j] }}" required>
+                                    <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                                    <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                    <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                                    <option value="1/2">1/2</option><option value="1/3">1/3</option><option value="1/4">1/4</option>
+                                    <option value="1/5">1/5</option><option value="1/6">1/6</option><option value="1/7">1/7</option>
+                                    <option value="8">1/8</option><option value="1/9">1/9</option>
+                        </select>
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+
+
+    {% for i in range(standard_list|length) %}
+        <h2 class="matrix">2.{{ i + 1 }} 各方案在“{{ standard_list[i] }}”的对比</h2>
+        {% if standard_list[i] == '离我距离' %}
+            参考信息
+            {% for j in range(plan_list|length) %}
+                <li>距离{{ plan_list[j] }} : {{ distance_list[j] }}千米</li>
+            {% endfor %}
+            <br>
+        {% elif standard_list[i] == '当地景色' %}
+            参考信息
+            <br>
+            {% for p in plan_list %}
+                <a class="baidu" href="https://www.mafengwo.cn/search/q.php?q={{ p }}" target="_blank"
+                   title="Find this on Mafengwo" onclick="return confirm('即将进入其他网站?')">{{ p }}</a>
+            {% endfor %}
+        {% elif standard_list[i] == '住宿费用' %}
+            参考信息
+            <br>
+            {% for i in range(pinyin_plan_list|length) %}
+                <a class="baidu" href="https://hotel.meituan.com/{{ pinyin_plan_list[i] }}/" target="_blank"
+                   title="Find this on Meituan" onclick="return confirm('即将进入其他网站?')">{{ plan_list[i] }}</a>
+            {% endfor %}
+        {% elif standard_list[i] == '小吃美食' %}
+            参考信息
+            <br>
+            {% for p in plan_list %}
+                <a class="baidu" href="https://www.baidu.com/s?wd={{ p }}美食" target="_blank"
+                    title="Find this on Baidu" onclick="return confirm('即将进入其他网站?')">{{ p }}</a>
+            {% endfor %}
+        {% elif standard_list[i] == '前往方式' %}
+            参考信息
+            <br>
+            {% for p in plan_list %}
+                <a class="baidu" href="https://www.baidu.com/s?wd={{ address }}前往{{ p }}方式" target="_blank"
+                    title="Find this on Baidu" onclick="return confirm('即将进入其他网站?')">{{ p }}</a>
+            {% endfor %}
+        {% else %}
+            参考信息
+            <br>
+            {% for p in plan_list %}
+                <a class="baidu" href="https://www.baidu.com/s?wd={{ p }}+{{ standard_list[i] }}" target="_blank"
+                    title="Find this on Baidu" onclick="return confirm('即将进入其他网站?')">{{ p }}</a>
+            {% endfor %}
+        {% endif %}
+
+        <table border="0">
+            <tr>
+                <td></td>
+                {% for k in range(plan_list|length) %}
+                    {% if (k != plan_list|length - 1) %}
+                        <td>{{ plan_list[k] }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% for k in range(plan_list|length) %}
+                <tr>
+                {% if k != 0 %}
+                    <td>{{ plan_list[k] }}</td>
+                    {% for j in range(k) %}
+                            <td>
+                                <select name="{{ plan_list[k] }}{{ plan_list[j] }}{{ standard_list[i] }}" required>
+                                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                                <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                                <option value="1/2">1/2</option><option value="1/3">1/3</option><option value="1/4">1/4</option>
+                                <option value="1/5">1/5</option><option value="1/6">1/6</option><option value="1/7">1/7</option>
+                                <option value="8">1/8</option><option value="1/9">1/9</option>
+                            </select>
+                            </td>
+                    {% endfor %}
+                {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    <br>
+    {% endfor %}
+    <input class="btn" type="submit" name="submit" value="提交" onclick="return confirm('确认提交?')">
+    <br><br>
+</form>
+{% endblock %}

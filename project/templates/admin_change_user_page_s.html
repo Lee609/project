@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if current_user.is_authenticated %}
+    <title>{{ user.name }}的系统</title>
+    {% else %}
+    <title>模拟决策系统</title>
+    {% endif %}
+    <link rel="icon" href="{{ url_for('static', filename='a.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+    <script src="static/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="static/echarts.min.js"></script>
+    <script type="text/javascript" src="static/china.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="left_admin">
+<ul class="movie-list-nav">
+    <li style="background:#BABBBC;">
+        <a href="{{ url_for('admin_change_user_page') }}" style="text-decoration: none; display:block;">
+            用户页面管理
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('admin_user_info') }}" style="text-decoration: none; display:block;">
+            用户信息管理
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('admin_monitor') }}" style="text-decoration: none; display:block;">
+            用户信息反馈
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('admin_index') }}" style="text-decoration: none; display:block;">
+            返回首页
+        </a>
+    </li>
+</ul>
+</div>
+
+<div class="right_admin">
+
+    <div class="left_admin">
+        <ul class="movie-list-nav">
+            <li style="background:#BABBBC;">
+                <a href="{{ url_for('admin_change_user_page') }}" style="text-decoration: none; display:block;">
+                    备选方案页面
+                </a>
+            </li>
+            <li style="background: #8B8B83;">
+                <a href="{{ url_for('admin_change_user_page_s') }}" style="text-decoration: none; display:block;">
+                    评价准则页面
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="right_admin">
+        <div class="left_right">
+        <center>
+            <h3>评价准则页面｜快捷选项</h3>
+            <form method="post" class="standard_form">
+                添加快捷选项<br>
+                <input type="text" name="recommend_standard" autocomplete="off" required>
+                <input class="btn" type="submit" name="submit_standard" value="添加">
+            </form>
+                {% for message in get_flashed_messages() %}
+                <div class="alert">{{ message }}</div>
+                {% endfor %}
+            <ul class="movie-list">
+                {% if recommend_standards|length != 0 %}
+                    {% for recommend_standard in recommend_standards %}
+                    <li>{{ recommend_standard.recommend_standard_name }}
+                    <span class="float-right">
+                        <form class="inline-form" method="post"
+                              action="{{ url_for('delete_recommend_standard', recommend_standard_id=recommend_standard.id) }}">
+                                <input class="btn" type="submit" name="delete_standard" value="删除">
+                        </form>
+                    </span>
+                    {% endfor %}
+                {% else %}
+                    <p>尚未添加备选方案
+                {% endif %}
+            </ul>
+        </center>
+        </div>
+
+        <div class="left_right">
+            <center><h3>备选方案页面｜各快捷选项使用频率</h3>
+            <br><br>
+        <ul class="movie-list">
+            {% for i in range(standard_name_list|length) %}
+                <li>{{ standard_name_list[i] }} : {{ standard_count_list_per[i] }}</li>
+            {% endfor %}
+        </ul>
+        </center>
+        </div>
+    </div>
+</div>
+{% endblock %}

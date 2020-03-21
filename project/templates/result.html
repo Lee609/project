@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>推荐指数</h1>
+<ul class="movie-list">
+{% for i in range(plans|length) %}
+    <li>{{ plans[i].plan_name }} : {{ result_list[i] }}
+{% endfor %}
+</ul>
+
+<a class="baidu" href="{{ url_for('plan') }}">返回</a>
+<a class="baidu" href="{{ url_for('charts') }}">查看详情</a>
+
+{% endblock %}

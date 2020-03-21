@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if current_user.is_authenticated %}
+    <title>{{ user.name }}的系统</title>
+    {% else %}
+    <title>模拟决策系统</title>
+    {% endif %}
+    <link rel="icon" href="{{ url_for('static', filename='a.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+    <script src="static/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="static/echarts.min.js"></script>
+    <script type="text/javascript" src="static/china.js"></script>
+{% endblock %}
+{% block content %}
+<div class="left">
+<ul class="movie-list">
+    <li>
+        <a href="{{ url_for('admin_change_user_page') }}" style="text-decoration: none; display:block;">
+            用户页面管理
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('admin_user_info') }}" style="text-decoration: none; display:block;">
+            用户信息管理
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('admin_monitor') }}" style="text-decoration: none; display:block;">
+            用户信息反馈
+        </a>
+    </li>
+</ul>
+</div>
+{% endblock %}

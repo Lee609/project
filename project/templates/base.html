@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if current_user.is_authenticated %}
+    <title>{{ user.name }}的系统</title>
+    {% else %}
+    <title>模拟决策系统</title>
+    {% endif %}
+    <link rel="icon" href="{{ url_for('static', filename='a.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+    <script src="{{ url_for('static', filename='jquery-1.11.0.min.js') }}"></script>
+    {% endblock %}
+</head>
+<body>
+    {% block nav %}
+    <nav>
+        <center>
+        <ul>
+            {% if user.identity == 'person' %}
+            <li class="icon"><a href="{{ url_for('plan') }}"><img alt="Avatar" class="avatar" src="{{ url_for('static', filename='a.ico') }}"></a></li>
+            {% endif %}
+            {% if user.identity == 'business' %}
+            <li class="icon"><a href="{{ url_for('business_index') }}"><img alt="Avatar" class="avatar" src="{{ url_for('static', filename='a.ico') }}"></a></li>
+            {% endif %}
+            {% if user.identity == 'admin' %}
+            <li class="icon"><a href="{{ url_for('admin_index') }}"><img alt="Avatar" class="avatar" src="{{ url_for('static', filename='a.ico') }}"></a></li>
+            {% endif %}
+            {% if current_user.is_authenticated %}
+            {% if user.identity == 'business' %}
+            <li class="text"><a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">
+                你好,{{ user.name }}(企业端)</a>
+                <ul>
+                    <li><a href="{{ url_for('user_feedback') }}">联系管理员</a></li>
+                    <li><a href="{{ url_for('logout') }}">注销</a></li>
+                </ul>
+            </li>
+            {% elif user.identity == 'person' %}
+            <li class="text"><a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">
+                你好,{{ user.name }}</a>
+                <ul>
+                    <li><a href="{{ url_for('user_feedback') }}">联系管理员</a></li>
+                    <li><a href="{{ url_for('logout') }}">注销</a></li>
+                </ul>
+            </li>
+            {% else %}
+            <li class="text"><a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">
+                你好,{{ user.name }}</a>
+                <ul>
+                    <li><a href="{{ url_for('logout') }}">注销</a></li>
+                </ul>
+            </li>
+            {% endif %}
+            <div id="light" class="white_content">
+                <img alt="Avatar" class="avatar" src="{{ url_for('static', filename='a.ico') }}">
+                <ul class="movie-list">
+                    {% if user.identity == 'person' %}
+                    <li>
+                        昵称<br>
+                        <form method="post" action="{{ url_for('change_name') }}" style="display:inline">
+                            <input type="text" style="text-align: center" name="name" autocomplete="off" required value="{{ user.name }}">
+                            <input class="btn" type="submit" name="submit" value="修改">
+                        </form>
+                    </li>
+                    {% endif %}
+                    {% if user.identity == 'business' %}
+                    <li>
+                        企业名<br>
+                            <input type="text" style="text-align: center" name="name" autocomplete="off" required value="{{ user.name }}" readonly>
+                    </li>
+                    {% endif %}
+                    <li>
+                        身份<br>
+                        {% if user.identity == 'person' %}
+                        <input type="text" style="text-align: center" name="identity" autocomplete="off" required value="个人用户" readonly>
+                        {% endif %}
+                        {% if user.identity == 'business' %}
+                        <input type="text" style="text-align: center" name="identity" autocomplete="off" required value="企业用户" readonly>
+                        {% endif %}
+                        {% if user.identity == 'admin' %}
+                        <input type="text" style="text-align: center" name="identity" autocomplete="off" required value="管理员" readonly>
+                        {% endif %}
+                    </li>
+                    {% if user.identity == 'business' %}
+                    <li>
+                        企业所在地<br>
+                        <input type="text" style="text-align: center" name="business_address" autocomplete="off" required value="{{ business_user.business_address }}" readonly>
+                    </li>
+                    {% endif %}
+                    <li>
+                        用户名<br>
+                        <input type="text" style="text-align: center" name="username" autocomplete="off" required value="{{ user.username }}" readonly>
+                    </li>
+                    <li>
+                        密码<br>
+                        <input type="text" style="text-align: center" name="username" autocomplete="off" required value="{{ user.password_hash }}" readonly>
+                        <div onclick="isHidden('div1')">
+                            <input type="button" name="open_password" value="修改密码">
+                        </div>
+                    </li>
+                    <li>
+                        <div id="div1" style="display:none">
+                            <form method="post" action="{{ url_for('change_password') }}">
+                                <input type="password" name="before_password" placeholder="原密码" autocomplete="off" required>
+                                <input type="password" name="now_password" placeholder="现密码" autocomplete="off" required>
+                                <input type="password" name="now_password_confirm" placeholder="确认密码" autocomplete="off" required>
+                                <input class="btn" type="submit" name="submit" value="修改">
+                            </form>
+                        </div>
+                        <script src="{{ url_for('static', filename='hidden.js') }}"></script>
+                    </li>
+                </ul>
+                <br>
+                <a class="delete" href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">
+                    关闭
+                </a>
+            </div>
+            <div id="fade" class="black_overlay"></div>
+
+            {% else %}
+            <li><a href="{{ url_for('login') }}">登录</a></li>
+            <li><a href="{{ url_for('register') }}">注册</a></li>
+            {% endif %}
+        </ul>
+        </center>
+    </nav>
+    {% endblock %}
+
+    {% block content %}
+    <div class="left">
+    {% block content_left %}{% endblock %}
+        {% for message in get_flashed_messages() %}
+        <div class="alert">{{ message }}</div>
+        {% endfor %}
+    </div>
+    <div class="right">
+    {% block content_right %} {% endblock %}
+    </div>
+
+    {% block indicator %}{% endblock %}
+
+    {% endblock %}
+</body>
+</html>

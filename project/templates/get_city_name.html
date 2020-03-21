@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>请输入城市名</h3>
+<form method="post">
+    城市名 <input type="text" name="address" autocomplete="off" required value="{{ business_address }}">
+    <input class="btn" type="submit" name="submit" value="前往查询">
+</form>
+{% endblock %}
